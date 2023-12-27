@@ -4,7 +4,7 @@ namespace Domain.Aggregates.Order
     /// <summary>
     /// value type object should be immutable and should not have an identity
     /// </summary>
-    public class OrderItem : ValueObjectBase
+    public class OrderItem : EntityBase<Guid>
     {
         public Guid OrderId { get; private set; }
 
@@ -18,12 +18,13 @@ namespace Domain.Aggregates.Order
 
         public int Quantity { get; private set; }
 
-        internal OrderItem(Guid orderId, long productId, decimal unitPrice, int quantity)
+        internal OrderItem(Guid id, Guid orderId, long productId, decimal unitPrice, int quantity, DateTimeOffset createdAt) : base(id)
         {
             OrderId = orderId;
             ProductId = productId;
             UnitPrice = unitPrice;
             Quantity = quantity;
+            CreatedAt = createdAt;
         }
 
         public decimal GetPrice()

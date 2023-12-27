@@ -20,7 +20,7 @@ namespace Domain.Aggregates.Identity
             private set => _roles = value.ToList();
         }
 
-        public User(Guid id, string username, string email, string? nameSurname, bool isEmailConfirmed, string passwordHash) : base(id)
+        public User(Guid id, string username, string email, string? nameSurname, bool isEmailConfirmed, string passwordHash, DateTimeOffset createdAt) : base(id)
         {
             _roles = new List<UserRole>();
             Username = username;
@@ -28,6 +28,7 @@ namespace Domain.Aggregates.Identity
             NameSurname = nameSurname;
             IsEmailConfirmed = isEmailConfirmed;
             PasswordHash = passwordHash;
+            CreatedAt = createdAt;
         }
     }
 }

@@ -18,15 +18,16 @@ namespace Domain.Aggregates.Order
             private set => _items = value.ToList();
         }
 
-        public Order(Guid id, Guid userId) : base(id)
+        public Order(Guid id, Guid userId, DateTimeOffset createdAt) : base(id)
         {
             _items = new List<OrderItem>();
             UserId = userId;
+            CreatedAt = createdAt;
         }
 
-        public void AddItem(long productId, decimal unitPrice, int quantity)
+        public void AddItem(Guid itemId, long productId, decimal unitPrice, int quantity, DateTimeOffset createdAt)
         {
-            _items.Add(new OrderItem(UserId, productId, unitPrice, quantity));
+            _items.Add(new OrderItem(itemId, UserId, productId, unitPrice, quantity, createdAt));
         }
     }
 }

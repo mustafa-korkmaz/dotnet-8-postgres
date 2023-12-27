@@ -6,12 +6,11 @@
     public abstract class EntityBase<TKey> : IEntity<TKey>
     {
         public TKey Id { get; private set; }
-        public DateTime CreatedAt { get; private set; }
+        public DateTimeOffset CreatedAt { get; protected set; }
 
         protected EntityBase()
         {
             Id = default!;
-            CreatedAt = DateTime.UtcNow;
         }
 
         protected EntityBase(TKey id)
@@ -20,19 +19,13 @@
         }
     }
 
-    public abstract class ValueObjectBase
-    {
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-    }
-
     public interface IEntity<out TKey>
     {
         /// <summary>
         /// Primary key for table
         /// </summary>
         TKey Id { get; }
-
-        DateTime CreatedAt { get; }
+        DateTimeOffset CreatedAt { get; }
     }
 
     /// <summary>

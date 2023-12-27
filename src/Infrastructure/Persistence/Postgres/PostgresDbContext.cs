@@ -12,21 +12,21 @@ namespace Infrastructure.Persistence.Postgres
         {
         }
 
-        public DbSet<User>? Users { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
 
-        public DbSet<Role>? Roles { get; set; }
+        public DbSet<Role> Roles { get; set; } = null!;
 
-        public DbSet<UserRole>? UserRoles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; } = null!;
 
-        public DbSet<Claim>? Claims { get; set; }
+        public DbSet<Claim> Claims { get; set; } = null!;
 
-        public DbSet<RoleClaim>? RoleClaims { get; set; }
+        public DbSet<RoleClaim> RoleClaims { get; set; } = null!;
 
-        public DbSet<Product>? Products { get; set; }
+        public DbSet<Product> Products { get; set; } = null!;
 
-        public DbSet<Order>? Orders { get; set; }
+        public DbSet<Order> Orders { get; set; } = null!;
 
-        public DbSet<OrderItem>? OrderItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -83,10 +83,6 @@ namespace Infrastructure.Persistence.Postgres
                 .Property(p => p.NameSurname)
                 .HasColumnType("varchar(100)");
 
-            modelBuilder.Entity<User>()
-                 .Property(p => p.CreatedAt)
-                 .IsRequired();
-
             #endregion identity user modifications
 
             #region role modifications
@@ -133,27 +129,58 @@ namespace Infrastructure.Persistence.Postgres
 
             #region seed
 
+            var userId = Guid.Parse("87622649-96c8-40b5-bcef-8351b0883b49");
+            var createdAt = new DateTime(2024, 1, 1);
+
             modelBuilder.Entity<Role>().HasData(
-                CreateRole("freemium"),
-                CreateRole("paid"),
-                CreateRole("admin")
+                CreateRole(1, "freemium"),
+                CreateRole(2, "paid"),
+                CreateRole(3, "admin")
             );
 
-            Role CreateRole(string name)
-            {
-                return new Role(name);
-            }
+            modelBuilder.Entity<UserRole>().HasData(
+                CreateUserRole(1, 2),
+                CreateUserRole(2, 3)
+            );
+
+            modelBuilder.Entity<Claim>().HasData(
+                CreateClaim(1, "first_claim"),
+                CreateClaim(2, "second_claim")
+            );
+
+            modelBuilder.Entity<RoleClaim>().HasData(
+                CreateRoleClaim(1, 3, 1),
+                CreateRoleClaim(2, 3, 2)
+            );
 
             modelBuilder.Entity<User>().HasData(
+                CreateUser("Mustafa Korkmaz",
+                    "mustafakorkmazdev@gmail.com"));
 
-           CreateUser(Guid.Parse("87622649-96c8-40b5-bcef-8351b0883b49"),
-               "Mustafa Korkmaz",
-               "mustafakorkmazdev@gmail.com"));
-
-
-            User CreateUser(Guid id, string name, string email)
+            Role CreateRole(int id, string name)
             {
-                return new User(id, email, email, name, true, "AD5bszN5VbOZSQW+1qcXQb08ElGNt9uNoTrsNenNHSsD1g2Gp6ya4+uFJWmoUsmfng==");
+                return new Role(id, name, createdAt);
+            }
+
+            UserRole CreateUserRole(int userRoleId, int roleId)
+            {
+                return new UserRole(userRoleId, userId, roleId, createdAt);
+            }
+
+            Claim CreateClaim(int id, string name)
+            {
+                return new Claim(id, name, createdAt);
+            }
+
+            RoleClaim CreateRoleClaim(int id, int roleId, int claimId)
+            {
+                return new RoleClaim(id, roleId, claimId, createdAt);
+            }
+
+            User CreateUser(string name, string email)
+            {
+                return new User(userId, email, email, name, true,
+                     "AD5bszN5VbOZSQW+1qcXQb08ElGNt9uNoTrsNenNHSsD1g2Gp6ya4+uFJWmoUsmfng==", createdAt);
             }
 
             #endregion seed

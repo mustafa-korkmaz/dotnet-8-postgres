@@ -12,10 +12,18 @@ namespace Domain.Aggregates.Identity
             private set => _claims = value.ToList();
         }
 
-        public Role(string name)
+        public Role(string name, DateTimeOffset createdAt)
         {
             _claims = new List<RoleClaim>();
             Name = name;
+            CreatedAt = createdAt;
+        }
+
+        public Role(int id, string name, DateTimeOffset createdAt) : base(id)
+        {
+            _claims = new List<RoleClaim>();
+            Name = name;
+            CreatedAt = createdAt;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace Domain.Aggregates.Identity
 {
-    public class UserRole : ValueObjectBase
+    public class UserRole : EntityBase<int>
     {
         public Guid UserId { get; private set; }
 
@@ -10,10 +10,18 @@ namespace Domain.Aggregates.Identity
         public int RoleId { get; private set; }
         public Role? Role { get; private set; }
 
-        public UserRole(Guid id, Guid userId, int roleId)
+        public UserRole(Guid userId, int roleId, DateTimeOffset createdAt)
         {
             UserId = userId;
             RoleId = roleId;
+            CreatedAt = createdAt;
+        }
+
+        public UserRole(int id, Guid userId, int roleId, DateTimeOffset createdAt) : base(id)
+        {
+            UserId = userId;
+            RoleId = roleId;
+            CreatedAt = createdAt;
         }
     }
 }
