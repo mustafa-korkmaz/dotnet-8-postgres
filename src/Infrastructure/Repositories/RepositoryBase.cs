@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
             Entities = _context.Set<TEntity>();
         }
 
-        public async Task<ListEntityResponse<TEntity>> ListAsync(ListEntityRequest request)
+        public virtual async Task<ListEntityResponse<TEntity>> ListAsync(ListEntityRequest request)
         {
             var result = new ListEntityResponse<TEntity>();
 

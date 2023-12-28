@@ -27,7 +27,7 @@ namespace Domain.Aggregates.Order
 
         public void AddItem(Guid itemId, long productId, decimal unitPrice, int quantity, DateTimeOffset createdAt)
         {
-            _items.Add(new OrderItem(itemId, UserId, productId, unitPrice, quantity, createdAt));
+            _items.Add(new OrderItem(itemId, Id, productId, unitPrice, quantity, createdAt));
         }
     }
 }

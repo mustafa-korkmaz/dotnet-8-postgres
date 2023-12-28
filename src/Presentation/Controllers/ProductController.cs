@@ -12,7 +12,7 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("products")]
-    public class ProductController : ControllerBase
+    public class ProductController : ApiControllerBase
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
@@ -42,14 +42,14 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(ProductViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromRoute] long id)
         {
-            var o = await _productService.GetByIdAsync(id);
+            var productDto = await _productService.GetByIdAsync(id);
 
-            if (o == null)
+            if (productDto == null)
             {
                 return NotFound();
             }
 
-            var viewModel = _mapper.Map<ProductViewModel>(o);
+            var viewModel = _mapper.Map<ProductViewModel>(productDto);
 
             return Ok(viewModel);
         }

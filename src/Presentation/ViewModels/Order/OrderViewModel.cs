@@ -3,11 +3,7 @@ namespace Presentation.ViewModels.Order
 {
     public class OrderViewModel : ViewModelBase<Guid>
     {
-        public decimal Price { get; set; }
-
-        public string UserId { get; set; } = null!;
-
-        public IReadOnlyCollection<OrderItemViewModel> Items { get; set; } = Array.Empty<OrderItemViewModel>();
+        public IReadOnlyCollection<OrderItemViewModel> OrderItems { get; set; } = Array.Empty<OrderItemViewModel>();
     }
 
     public class OrderItemViewModel

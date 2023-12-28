@@ -1,26 +1,29 @@
-﻿using Presentation.Middlewares.Validations;
+﻿using Application.Constants;
+using Presentation.Middlewares.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.ViewModels.Order
 {
     public class AddEditOrderViewModel
     {
-        [GuidValidation]
-        public string? UserId { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = ValidationErrorCode.RequiredField)]
+        [Display(Name = "ITEMS")]
         public ICollection<AddEditOrderItemViewModel>? Items { get; set; }
     }
 
     public class AddEditOrderItemViewModel
     {
         [LongValidation]
-        public long ProductId { get; set; }
+        [Required(ErrorMessage = ValidationErrorCode.RequiredField)]
+        [Display(Name = "PRODUCT_ID")]
+        public long? ProductId { get; set; }
 
-        [Required]
-        public decimal UnitPrice { get; set; }
+        [Required(ErrorMessage = ValidationErrorCode.RequiredField)]
+        [Display(Name = "UNIT_PRICE")]
+        public decimal? UnitPrice { get; set; }
 
-        [Required]
-        public int Quantity { get; set; }
+        [Required(ErrorMessage = ValidationErrorCode.RequiredField)]
+        [Display(Name = "QUANTITY")]
+        public int? Quantity { get; set; }
     }
 }

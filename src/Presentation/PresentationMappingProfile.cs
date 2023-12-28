@@ -46,7 +46,9 @@ namespace Presentation
                     opt.MapFrom(source => DateTimeOffset.UtcNow));
 
             CreateMap<AddEditOrderItemViewModel, OrderItemDto>();
-            CreateMap<OrderDto, OrderViewModel>();
+            CreateMap<OrderDto, OrderViewModel>()
+                .ForMember(dest => dest.OrderItems, opt =>
+                    opt.MapFrom(source => source.Items));
             CreateMap<OrderItemDto, OrderItemViewModel>();
         }
     }
