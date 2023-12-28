@@ -10,7 +10,7 @@
 
         public int StockQuantity { get; private set; }
 
-        public Product(string sku, string name, decimal unitPrice, int stockQuantity, DateTimeOffset createdAt)
+        public Product(long id, string sku, string name, decimal unitPrice, int stockQuantity, DateTimeOffset createdAt) : base(id)
         {
             Sku = sku;
             Name = name;

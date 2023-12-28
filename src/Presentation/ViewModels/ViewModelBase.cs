@@ -4,7 +4,8 @@ namespace Presentation.ViewModels
 {
     public class ViewModelBase<TKey>
     {
-        public TKey Id { get; set; } = default(TKey);
+        public TKey Id { get; set; } = default!;
+        public DateTimeOffset CreatedAt { get; set; }
     }
 
     public class ListViewModelRequest

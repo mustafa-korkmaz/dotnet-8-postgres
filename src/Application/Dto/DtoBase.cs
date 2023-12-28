@@ -3,11 +3,13 @@
     public interface IDto<TKey>
     {
         TKey Id { get; set; }
+        DateTimeOffset CreatedAt { get; set; }
     }
 
     public abstract class DtoBase<TKey> : IDto<TKey>
     {
         public TKey Id { get; set; } = default!;
+        public DateTimeOffset CreatedAt { get; set; }
     }
 
     public class ListDtoResponse<TDto> where TDto : class

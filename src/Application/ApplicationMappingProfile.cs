@@ -7,33 +7,31 @@ using Domain.Aggregates;
 using Domain.Aggregates.Identity;
 using Domain.Aggregates.Order;
 using Domain.Aggregates.Product;
-using Infrastructure.Services;
 
 namespace Application
 {
-    public class MappingProfile : Profile
+    public class ApplicationMappingProfile : Profile
     {
-        public MappingProfile()
+        public ApplicationMappingProfile()
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>()
-                .ConvertUsing(src => new User(Guid.NewGuid(), src.Username.GetNormalized(), src.Email.GetNormalized(), src.NameSurname, src.IsEmailConfirmed, src.PasswordHash, DateTimeOffset.UtcNow));
+                .ConvertUsing(src => new User(src.Id, src.Username, src.Email, src.NameSurname, src.IsEmailConfirmed, src.PasswordHash, src.CreatedAt));
 
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>()
-                .ConvertUsing(src => new Product(src.Sku!, src.Name!, src.UnitPrice, src.StockQuantity, DateTimeOffset.UtcNow));
+                .ConvertUsing(src => new Product(src.Id, src.Sku, src.Name, src.UnitPrice, src.StockQuantity, src.CreatedAt));
 
             CreateMap<OrderItem, OrderItemDto>();
             CreateMap<Order, OrderDto>();
             CreateMap<OrderDto, Order>()
                 .ConvertUsing((src, _) =>
                 {
-                    var now = DateTimeOffset.UtcNow;
-                    var order = new Order(Guid.NewGuid(), src.UserId, now);
+                    var order = new Order(src.Id, src.UserId, src.CreatedAt);
 
                     foreach (var item in src.Items)
                     {
-                        order.AddItem(Guid.NewGuid(), item.ProductId, item.UnitPrice, item.Quantity, now);
+                        order.AddItem(Guid.NewGuid(), item.ProductId, item.UnitPrice, item.Quantity, src.CreatedAt);
                     }
 
                     return order;

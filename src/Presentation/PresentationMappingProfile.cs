@@ -11,13 +11,18 @@ using Presentation.ViewModels.Product;
 
 namespace Presentation
 {
-    internal class MappingProfile : Profile
+    internal class PresentationMappingProfile : Profile
     {
-        public MappingProfile()
+        public PresentationMappingProfile()
         {
+            CreateMap(typeof(DtoBase<>), typeof(ViewModelBase<>));
             CreateMap<AddUserViewModel, UserDto>()
                 .ForMember(dest => dest.Username, opt =>
-                    opt.MapFrom(source => source.Email));
+                    opt.MapFrom(source => source.Email!.GetNormalized()))
+                .ForMember(dest => dest.Email, opt =>
+                    opt.MapFrom(source => source.Email!.GetNormalized()))
+                .ForMember(dest => dest.CreatedAt, opt =>
+                    opt.MapFrom(source => DateTimeOffset.UtcNow));
 
             CreateMap<GetTokenViewModel, UserDto>()
                 .ForMember(dest => dest.Username, opt =>
@@ -25,17 +30,21 @@ namespace Presentation
                 .ForMember(dest => dest.Email, opt =>
                     opt.MapFrom(source => source.EmailOrUsername!.GetNormalized()));
 
-            CreateMap<UserDto, UserViewModel>()
-                .ForMember(dest => dest.CreatedAt, opt =>
-                    opt.MapFrom(source => source.CreatedAt.UtcDateTime));
+            CreateMap<UserDto, UserViewModel>();
 
-            CreateMap<AddEditProductViewModel, ProductDto>();
+            CreateMap<AddEditProductViewModel, ProductDto>()
+                .ForMember(dest => dest.CreatedAt, opt =>
+                    opt.MapFrom(source => DateTimeOffset.UtcNow));
+
             CreateMap<ProductDto, ProductViewModel>();
 
             CreateMap<ListViewModelRequest, ListDtoRequest>();
             CreateMap(typeof(ListDtoResponse<>), typeof(ListViewModelResponse<>));
 
-            CreateMap<AddEditOrderViewModel, OrderDto>();
+            CreateMap<AddEditOrderViewModel, OrderDto>()
+                .ForMember(dest => dest.CreatedAt, opt =>
+                    opt.MapFrom(source => DateTimeOffset.UtcNow));
+
             CreateMap<AddEditOrderItemViewModel, OrderItemDto>();
             CreateMap<OrderDto, OrderViewModel>();
             CreateMap<OrderItemDto, OrderItemViewModel>();

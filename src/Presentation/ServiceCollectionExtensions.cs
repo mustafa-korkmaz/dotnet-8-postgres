@@ -22,10 +22,10 @@ namespace Presentation
         public static IServiceCollection AddMappings(this IServiceCollection services)
         {
             //ViewModels to DTOs mappings
-            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddAutoMapper(typeof(PresentationMappingProfile));
 
             //DTOs to Domain entities mappings
-            services.AddAutoMapper(typeof(Application.MappingProfile));
+            services.AddAutoMapper(typeof(Application.ApplicationMappingProfile));
 
             return services;
         }

@@ -7,8 +7,6 @@ namespace Application.Dto.Order
 
         public decimal Price { get; set; }
 
-        public DateTimeOffset CreatedAt { get; set; }
-
         public ICollection<OrderItemDto> Items { get; set; } = new List<OrderItemDto>();
     }
 }

@@ -1,10 +1,8 @@
 ﻿
 namespace Presentation.ViewModels.Identity
 {
-    public class UserViewModel
+    public class UserViewModel : ViewModelBase<Guid>
     {
-        public string? Id { get; set; }
-
         public string? Username { get; set; }
 
         public string? Email { get; set; }
@@ -12,7 +10,5 @@ namespace Presentation.ViewModels.Identity
         public string? NameSurname { get; set; }
 
         public IEnumerable<string> Claims { get; set; } = Array.Empty<string>();
-
-        public DateTime CreatedAt { get; set; }
     }
 }
